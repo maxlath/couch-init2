@@ -1,5 +1,10 @@
 const _ = require('inv-loggers')
 const bluebird = require('bluebird')
+const nanoBlue = require('nano-blue')
+
+// example:
+
+// dbBaseUrl = 'http://username:password@localhost:5984'
 
 // dbsList = [
 //    {
@@ -11,12 +16,10 @@ const bluebird = require('bluebird')
 // designDocFolder = path to the folder where design docs can be found on the model `${designDocName}.json`.
 // Make sure design docs files don't have a _rev attribute
 
-// nano = require('nano-blue')(yourDbUrlIncludingAuth)
-
-module.exports = function (dbsList, designDocFolder, nano) {
+module.exports = function (dbBaseUrl, dbsList, designDocFolder) {
   var msg
-  if (!(typeof nano.use === 'function')) {
-    msg = 'expected an initialized nano-blue object'
+  if (!/^https?:\/\/\w+:[^@]+@.+/.test(dbBaseUrl)) {
+    msg = 'expected a db url with username and password'
     return bluebird.reject(new Error(msg))
   }
   if (!(typeof designDocFolder === 'string')) {
@@ -28,7 +31,8 @@ module.exports = function (dbsList, designDocFolder, nano) {
     return bluebird.reject(new Error(msg))
   }
 
-  const initDb = require('./lib/init_db')(nano, designDocFolder)
+  const nano = nanoBlue(dbBaseUrl)
+  const initDb = require('./lib/init_db')(dbBaseUrl, nano, designDocFolder)
 
   return bluebird.all(dbsList.map(initDb))
   .then((res) => { return { ok: true } })
