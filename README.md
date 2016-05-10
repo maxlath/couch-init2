@@ -47,8 +47,8 @@ couchInit(dbUrl, dbsList, designDocFolder)
 
 ```
 
-### Actions
+### What it does
 
 * create databases if missing
-* create or update design documents
+* create or update design documents if not up-to-date
 * create [security documents](http://docs.couchdb.org/en/1.6.1/api/database/security.html) if missing
