@@ -1,6 +1,6 @@
 const _ = require('inv-loggers')
 const bluebird = require('bluebird')
-const nanoBlue = require('nano-blue')
+const nanoBlue = require('nano-blue2')
 
 // example:
 
