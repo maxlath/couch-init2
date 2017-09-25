@@ -18,7 +18,7 @@ const nanoBlue = require('nano-blue2')
 
 module.exports = function (dbBaseUrl, dbsList, designDocFolder) {
   var msg
-  if (!/^https?:\/\/\w+:[^@]+@.+/.test(dbBaseUrl)) {
+  if (!/^https?:\/\/[\w-]+:[^@]+@.+/.test(dbBaseUrl)) {
     msg = 'expected a db url with username and password'
     return bluebird.reject(new Error(msg))
   }
