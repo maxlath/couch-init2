@@ -4,7 +4,7 @@
   "description": "Opiniated CouchDB databases initializer",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "lint": "./node_modules/standard/bin/cmd.js index.js lib/*js",
     "prepublish": "npm run lint"
   },
@@ -16,6 +16,9 @@
     "nano-blue2": "^0.3.6"
   },
   "devDependencies": {
+    "config": "^1.26.2",
+    "mocha": "^3.5.3",
+    "should": "^13.1.0",
     "standard": "^6.0.7"
   },
   "repository": {
@@ -29,6 +32,13 @@
     "nano-blue",
     "promises"
   ],
+  "standard": {
+    "globals": [
+      "it",
+      "describe",
+      "beforeEach"
+    ]
+  },
   "bugs": {
     "url": "https://github.com/maxlath/couch-init2/issues"
   },
