@@ -1,6 +1,5 @@
 const _ = require('inv-loggers')
 const bluebird = require('bluebird')
-const nanoBlue = require('nano-blue2')
 
 // example:
 
@@ -31,8 +30,7 @@ module.exports = function (dbBaseUrl, dbsList, designDocFolder) {
     return bluebird.reject(new Error(msg))
   }
 
-  const nano = nanoBlue(dbBaseUrl)
-  const initDb = require('./lib/init_db')(dbBaseUrl, nano, designDocFolder)
+  const initDb = require('./lib/init_db')(dbBaseUrl, designDocFolder)
 
   return bluebird.all(dbsList.map(initDb))
   .then(res => ({ ok: true }))
