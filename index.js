@@ -9,7 +9,7 @@ const nanoBlue = require('nano-blue2')
 // dbsList = [
 //    {
 //      name: 'dbname',
-//      designDocs: ['designdoc1', 'designdoc2']
+//      designDocs: [ 'designdoc1', 'designdoc2' ]
 //    }
 //  ]
 
@@ -35,6 +35,6 @@ module.exports = function (dbBaseUrl, dbsList, designDocFolder) {
   const initDb = require('./lib/init_db')(dbBaseUrl, nano, designDocFolder)
 
   return bluebird.all(dbsList.map(initDb))
-  .then((res) => { return { ok: true } })
+  .then(res => ({ ok: true }))
   .catch(_.ErrorRethrow('db init err'))
 }
