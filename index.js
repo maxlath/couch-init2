@@ -34,5 +34,11 @@ module.exports = function (dbBaseUrl, dbsList, designDocFolder) {
 
   return bluebird.all(dbsList.map(initDb))
   .then(res => ({ ok: true }))
-  .catch(_.ErrorRethrow('db init err'))
+  .catch(err => {
+    if (err.message === 'Name or password is incorrect.') {
+      throw new Error('CouchDB name or password is incorrect')
+    } else {
+      throw err
+    }
+  })
 }
