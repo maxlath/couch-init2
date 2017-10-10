@@ -1,4 +1,3 @@
-const _ = require('inv-loggers')
 const bluebird = require('bluebird')
 
 // example:
