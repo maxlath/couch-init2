@@ -31,8 +31,8 @@ module.exports = function (dbBaseUrl, dbsList, designDocFolder) {
 
   const initDb = require('./lib/init_db')(dbBaseUrl, designDocFolder)
 
-  return bluebird.all(dbsList.map(initDb))
-  .then(res => ({ ok: true }))
+  return bluebird.props(dbsList.reduce(aggregateInitDb(initDb), {}))
+  .then(operations => ({ ok: true, operations }))
   .catch(err => {
     if (err.message === 'Name or password is incorrect.') {
       throw new Error('CouchDB name or password is incorrect')
@@ -40,4 +40,9 @@ module.exports = function (dbBaseUrl, dbsList, designDocFolder) {
       throw err
     }
   })
+}
+
+const aggregateInitDb = initDb => (index, dbData) => {
+  index[dbData.name] = initDb(dbData)
+  return index
 }
