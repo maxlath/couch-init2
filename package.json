@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha",
     "lint": "./node_modules/standard/bin/cmd.js index.js lib/*js",
-    "prepublish": "npm run lint"
+    "prepublishOnly": "npm run lint && npm test"
   },
   "author": "maxlath",
   "license": "MIT",
