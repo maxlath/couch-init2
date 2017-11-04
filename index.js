@@ -20,7 +20,7 @@ module.exports = function (dbBaseUrl, dbsList, designDocFolder) {
     msg = 'expected a db url with username and password'
     return bluebird.reject(new Error(msg))
   }
-  if (!(typeof designDocFolder === 'string')) {
+  if (typeof designDocFolder !== 'string') {
     msg = 'expected an string as designDocFolder path'
     return bluebird.reject(new Error(msg))
   }
