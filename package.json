@@ -11,7 +11,7 @@
   "author": "maxlath",
   "license": "MIT",
   "dependencies": {
-    "bluereq": "^2.1.4",
+    "bluereq": "^2.1.7",
     "inv-loggers": "^3.3.1",
     "nano-blue2": "^0.3.6"
   },
