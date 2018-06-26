@@ -11,7 +11,7 @@ Takes a list of databases to initialise and their design docs, and make sure tha
 
 in a terminal, at the root of your project
 ```sh
-npm install couch-init2 --save
+npm install couch-init2
 ```
 
 ### How To
