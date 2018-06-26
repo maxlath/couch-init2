@@ -39,12 +39,13 @@ var designDocFolder = '/path/to/your/design/docs/folder'
 
 couchInit(dbUrl, dbsList, designDocFolder)
 // returns a promise
-.then(function (res) {
+.then(res => {
+  console.log('ok', res.ok)
+  console.log('operations', res.operations)
   // dbs were successfully initialized!
   // time to start your server or whatever crazy thing you're building :)
 })
-.catch(function (err) { // handle the error })
-
+.catch(err => { // handle the error })
 ```
 
 ### What it does
