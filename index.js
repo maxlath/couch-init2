@@ -1,4 +1,6 @@
 const bluebird = require('bluebird')
+const waitForCouchdb = require('./lib/wait_for_couchdb')
+const initDbs = require('./lib/init_dbs')
 
 // example:
 
@@ -29,20 +31,6 @@ module.exports = function (dbBaseUrl, dbsList, designDocFolder) {
     return bluebird.reject(new Error(msg))
   }
 
-  const initDb = require('./lib/init_db')(dbBaseUrl, designDocFolder)
-
-  return bluebird.props(dbsList.reduce(aggregateInitDb(initDb), {}))
-  .then(operations => ({ ok: true, operations }))
-  .catch(err => {
-    if (err.message === 'Name or password is incorrect.') {
-      throw new Error('CouchDB name or password is incorrect')
-    } else {
-      throw err
-    }
-  })
-}
-
-const aggregateInitDb = initDb => (index, dbData) => {
-  index[dbData.name] = initDb(dbData)
-  return index
+  return waitForCouchdb(dbBaseUrl)
+  .then(() => initDbs(dbBaseUrl, dbsList, designDocFolder))
 }
