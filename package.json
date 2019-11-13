@@ -9,6 +9,10 @@
     "prepublishOnly": "npm run lint && npm test",
     "postpublish": "git push --tags"
   },
+  "files": [
+    "index.js",
+    "lib"
+  ],
   "author": "maxlath",
   "license": "MIT",
   "dependencies": {
