@@ -53,3 +53,6 @@ couchInit(dbUrl, dbsList, designDocFolder)
 * create databases if missing
 * create or update design documents if not up-to-date
 * create [security documents](http://docs.couchdb.org/en/1.6.1/api/database/security.html) if missing
+
+## See also
+* [couchdb-bootstrap](https://github.com/jo/couchdb-bootstrap): Bootstrap CouchDB projects: configure, setup security, deploy ddocs and create users.
