@@ -3,7 +3,7 @@ const initDbs = require('./lib/init_dbs')
 
 // example:
 
-// dbBaseUrl = 'http://username:password@localhost:5984'
+// dbHostUrlWithAuth = 'http://username:password@localhost:5984'
 
 // dbsList = [
 //    {
@@ -15,8 +15,8 @@ const initDbs = require('./lib/init_dbs')
 // designDocFolder = path to the folder where design docs can be found on the model `${designDocName}.json`.
 // Make sure design docs files don't have a _rev attribute
 
-module.exports = async (dbBaseUrl, dbsList, designDocFolder) => {
-  if (!/^https?:\/\/[\w-]+:[^@]+@.+/.test(dbBaseUrl)) {
+module.exports = async (dbHostUrlWithAuth, dbsList, designDocFolder) => {
+  if (!/^https?:\/\/[\w-]+:[^@]+@.+/.test(dbHostUrlWithAuth)) {
     throw new Error('expected a db url with username and password')
   }
 
@@ -28,7 +28,7 @@ module.exports = async (dbBaseUrl, dbsList, designDocFolder) => {
     throw new Error('expected dbsList to be an array')
   }
 
-  await waitForCouchdb(dbBaseUrl)
+  await waitForCouchdb(dbHostUrlWithAuth)
 
-  return initDbs(dbBaseUrl, dbsList, designDocFolder)
+  return initDbs(dbHostUrlWithAuth, dbsList, designDocFolder)
 }

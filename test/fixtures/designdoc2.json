@@ -1,5 +1,9 @@
 {
    "_id": "_design/designdoc2",
    "language": "javascript",
-   "views": {}
+   "views": {
+      "byTimestamp": {
+         "map": "function (doc) { emit(doc.timestamp, null) }"
+      }
+   }
 }
