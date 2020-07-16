@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "lint": "standard index.js lib/*js",
-    "prepublishOnly": "npm run lint && npm test",
+    "prepublishOnly": "npm test",
     "postpublish": "git push --tags"
   },
   "files": [
