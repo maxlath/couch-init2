@@ -5,7 +5,7 @@ require('should')
 const dbBaseUrl = `http://${CONFIG.user}:${CONFIG.pass}@${CONFIG.host}`
 
 const nano = require('nano-blue2')(dbBaseUrl)
-const dbName = 'couch-init-tests'
+const dbName = 'couch-init2-tests'
 const db = nano.use(dbName)
 
 const dbsList = [
@@ -17,7 +17,7 @@ const dbsList = [
 
 const designDocFolder = __dirname + '/fixtures'
 
-describe('couch-init', () => {
+describe('couch-init2', () => {
   it('should be a function', done => {
     couchInit.should.be.a.Function()
     done()

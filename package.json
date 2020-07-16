@@ -16,16 +16,16 @@
   "author": "maxlath",
   "license": "MIT",
   "dependencies": {
-    "bluereq": "^2.1.7",
-    "chalk": "^2.4.1",
-    "inv-loggers": "^3.3.1",
-    "nano-blue2": "^0.3.6"
+    "node-fetch": "^2.6.0",
+    "tiny-chalk": "^2.0.0"
   },
   "devDependencies": {
     "config": "^1.26.2",
-    "mocha": "^3.5.3",
-    "should": "^13.1.0",
-    "standard": "^10.0.3"
+    "mocha": "^8.0.1",
+    "should": "^13.2.3"
+  },
+  "engines": {
+    "node": ">= 8"
   },
   "repository": {
     "type": "git",
