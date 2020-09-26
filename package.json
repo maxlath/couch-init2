@@ -32,9 +32,9 @@
   },
   "keywords": [
     "couchdb",
-    "nano",
-    "bluebird",
-    "nano-blue",
+    "init",
+    "setup",
+    "design docs",
     "promises"
   ],
   "standard": {
