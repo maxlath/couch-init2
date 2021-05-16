@@ -1,6 +1,9 @@
 # CHANGELOG
 *versions follow [SemVer](http://semver.org)*
 
+## 4.0.0 - 2021-05-16
+* **BREAKING CHANGE**: the initialization now only returns a minimized object, only reporting the operations that occurred, instead of also reporting those that did not
+
 ## 3.0.0 - 2020-07-16
 * **BREAKING CHANGE**: using `async`/`await` internally (required NodeJS `>= v8`)
 
