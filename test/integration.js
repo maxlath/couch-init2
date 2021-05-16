@@ -57,16 +57,15 @@ describe('integration', () => {
     dbOps.should.deepEqual({
       created: true,
       designDocs: { designdoc1: { created: true }, designdoc2: { created: true } },
-      securityDoc: { created: true }
     })
   })
 
-  it('should create security documents', async () => {
+  it('should create security documents (if not already set)', async () => {
     await couchInit(authHost, dbsList, designDocFolder)
     const securityDoc = await fetch(`${dbUrlWithAuth}/_security`).then(res => res.json())
     securityDoc.should.deepEqual({
-      admins: { names: [ CONFIG.user ] },
-      members: { names: [ CONFIG.user ] }
+      admins: { roles: [ '_admin' ] },
+      members: { roles: [ '_admin' ] }
     })
   })
 
@@ -97,8 +96,7 @@ describe('integration', () => {
     const dbOps = operations[dbName]
     dbOps.should.deepEqual({
       created: false,
-      designDocs: { designdoc1: { updated: false }, designdoc2: { updated: true } },
-      securityDoc: { created: false }
+      designDocs: { designdoc2: { updated: true } }
     })
     const reupdatedDesignDoc = await db.get('_design/designdoc2')
     reupdatedDesignDoc._rev.split('-')[0].should.equal('3')
