@@ -15,4 +15,12 @@ module.exports = {
         if (doc.example) emit(doc.example, double(1))
       }`,
   },
+  byExample3: {
+    map: [
+      function double (num) { num * 2 },
+      function (doc) {
+        if (doc.example) emit(doc.example, double(1))
+      }
+    ]
+  },
 }

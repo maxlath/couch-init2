@@ -5,7 +5,9 @@ require('should')
 const authHost = `http://${CONFIG.user}:${CONFIG.pass}@${CONFIG.host}`
 const nonAuthHost = `http://${CONFIG.host}`
 const dbName = 'couch-init2-tests'
+const dbName2 = 'couch-init2-tests-bis'
 const dbUrlWithAuth = `${authHost}/${dbName}`
+const db2UrlWithAuth = `${authHost}/${dbName2}`
 const dbUrlWithoutAuth = `${nonAuthHost}/${dbName}`
 
 const fetch = require('node-fetch')
@@ -19,7 +21,7 @@ const dbsList = [
 
 const jsDesignDocsDbsList = [
   {
-    name: `${dbName}-bis`,
+    name: dbName2,
     designDocs: [ 'designdoc3.js' ]
   }
 ]
@@ -113,5 +115,11 @@ describe('integration', () => {
   it('should accept design docs as js modules', async () => {
     const res = await couchInit(authHost, jsDesignDocsDbsList, designDocFolder)
     res.ok.should.be.true()
+    const designDoc = await fetch(`${db2UrlWithAuth}/_design/designdoc3`).then(res => res.json())
+    designDoc.views.byExample.map.should.be.a.String()
+    designDoc.views.byExample.reduce.should.be.a.String()
+    designDoc.views.byExample2.map.should.be.a.String()
+    designDoc.views.byExample3.map.should.be.a.String()
+    designDoc.views.byExample3.map.should.startWith('function double')
   })
 })
