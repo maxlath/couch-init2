@@ -1,8 +1,11 @@
 # CHANGELOG
 *versions follow [SemVer](http://semver.org)*
 
+## 4.2.0 - 2021-12-11
+* [CommonJS module design doc](https://github.com/maxlath/couch-init2#js): add support for function array as view functions to concatenate
+
 ## 4.1.0 - 2021-12-11
-* Add support for design docs passed as a CommonJS module
+* Add support for [design docs passed as a CommonJS module](https://github.com/maxlath/couch-init2#js)
 
 ## 4.0.0 - 2021-05-16
 * **BREAKING CHANGE**: the initialization now only returns a minimized object, only reporting the operations that occurred, instead of also reporting those that did not

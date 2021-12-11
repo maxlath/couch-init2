@@ -85,6 +85,16 @@ module.exports = {
         if (doc.foo) emit(doc.foo, double(1))
       }`,
   },
+  byBuzz: {
+    // Alternatively, an array of functions can be passed to preserve text editor
+    // features such as syntax highlighting or linting
+    map: [
+      function double (num) { num * 2 },
+      function (doc) {
+        if (doc.example) emit(doc.example, double(1))
+      }
+    ]
+  },
 }
 ```
 
