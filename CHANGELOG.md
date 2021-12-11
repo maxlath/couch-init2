@@ -1,6 +1,9 @@
 # CHANGELOG
 *versions follow [SemVer](http://semver.org)*
 
+## 4.1.0 - 2021-12-11
+* Add support for design docs passed as a CommonJS module
+
 ## 4.0.0 - 2021-05-16
 * **BREAKING CHANGE**: the initialization now only returns a minimized object, only reporting the operations that occurred, instead of also reporting those that did not
 
