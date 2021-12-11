@@ -17,6 +17,13 @@ const dbsList = [
   }
 ]
 
+const jsDesignDocsDbsList = [
+  {
+    name: `${dbName}-bis`,
+    designDocs: [ 'designdoc3.js' ]
+  }
+]
+
 const designDocFolder = __dirname + '/fixtures'
 
 const db = {
@@ -101,5 +108,10 @@ describe('integration', () => {
     const reupdatedDesignDoc = await db.get('_design/designdoc2')
     reupdatedDesignDoc._rev.split('-')[0].should.equal('3')
     reupdatedDesignDoc.views.byTimestamp.map.should.be.a.String()
+  })
+
+  it('should accept design docs as js modules', async () => {
+    const res = await couchInit(authHost, jsDesignDocsDbsList, designDocFolder)
+    res.ok.should.be.true()
   })
 })

@@ -48,6 +48,46 @@ couchInit(dbUrl, dbsList, designDocFolder)
 .catch(err => { // handle the error })
 ```
 
+### Design docs formats
+#### json
+The JSON format is identical to the document in database, minus the `_rev` id.
+```json
+{
+  "_id": "_design/example",
+  "language": "javascript",
+  "views": {
+    "byFoo": {
+      "map": "function (doc) {\n  if (doc.foo) emit(doc.foo, 1)\n}"
+    }
+  }
+}
+```
+
+#### js
+The JS format allows to use a JS module that exports just the `views` object, the `_id` being deduced from the filename (ex: if the file is named `foo.js`, the `_id` will be `_design/foo`)
+```js
+module.exports = {
+  byFoo: {
+    map: function (doc) {
+      if (doc.foo) emit(doc.foo, 1)
+    },
+    reduce: function(keys, values) {
+      return values.reduce((a, b) => a + b, 0)
+    },
+  },
+  byBar: {
+    // The function stringification won't be able to detect variables in scope.
+    // In this case, you have to pass the function and its dependencies as a string.
+    map: `
+      const double = num => num * 2
+
+      function (doc) {
+        if (doc.foo) emit(doc.foo, double(1))
+      }`,
+  },
+}
+```
+
 ### What it does
 
 * create databases if missing
