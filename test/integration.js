@@ -125,7 +125,7 @@ describe('integration', () => {
     designDoc.views.byExample3.map.should.startWith('function double')
   })
 
-  it('should initialize a missing JSON design doc', async () => {
+  it('should reject a missing JSON design doc', async () => {
     const designDocName = 'not_existing_design_doc'
     const designDocPath = `${designDocFolder}/${designDocName}.json`
     await rm(designDocPath).catch(ignoreMissingFile)
@@ -136,10 +136,14 @@ describe('integration', () => {
       }
     ]
     await couchInit(authHost, designDocsDbsList, designDocFolder)
-    await exists(designDocPath)
+    .then(shouldNotBeCalled)
+    .catch(err => {
+      err.code.should.equal('ENOENT')
+      err.path.should.equal(designDocPath)
+    })
   })
 
-  it('should initialize a missing JS design doc', async () => {
+  it('should reject a missing JS design doc', async () => {
     const designDocName = 'not_existing_design_doc.js'
     const designDocPath = `${designDocFolder}/${designDocName}`
     await rm(designDocPath).catch(ignoreMissingFile)
@@ -150,9 +154,21 @@ describe('integration', () => {
       }
     ]
     await couchInit(authHost, designDocsDbsList, designDocFolder)
-    await exists(designDocPath)
+    .then(shouldNotBeCalled)
+    .catch(err => {
+      err.code.should.equal('MODULE_NOT_FOUND')
+      err.message.should.containEql(designDocPath)
+    })
   })
 })
+
+const shouldNotBeCalled = res => {
+  console.warn(inspect(res, false, null), 'undesired positive res')
+  const err = new Error('function was expected not to be called')
+  err.context = { res }
+  err.code = 'shouldNotBeCalled'
+  throw err
+}
 
 const ignoreMissingFile = err => {
   if (err.code !== 'ENOENT') throw err
