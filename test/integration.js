@@ -1,6 +1,8 @@
 const CONFIG = require('config')
 const couchInit = require('../index')
 require('should')
+const { inspect } = require('util')
+const { rm, stat: exists } = require('fs').promises
 
 const authHost = `http://${CONFIG.user}:${CONFIG.pass}@${CONFIG.host}`
 const nonAuthHost = `http://${CONFIG.host}`
@@ -122,4 +124,36 @@ describe('integration', () => {
     designDoc.views.byExample3.map.should.be.a.String()
     designDoc.views.byExample3.map.should.startWith('function double')
   })
+
+  it('should initialize a missing JSON design doc', async () => {
+    const designDocName = 'not_existing_design_doc'
+    const designDocPath = `${designDocFolder}/${designDocName}.json`
+    await rm(designDocPath).catch(ignoreMissingFile)
+    const designDocsDbsList = [
+      {
+        name: dbName2,
+        designDocs: [ designDocName ]
+      }
+    ]
+    await couchInit(authHost, designDocsDbsList, designDocFolder)
+    await exists(designDocPath)
+  })
+
+  it('should initialize a missing JS design doc', async () => {
+    const designDocName = 'not_existing_design_doc.js'
+    const designDocPath = `${designDocFolder}/${designDocName}`
+    await rm(designDocPath).catch(ignoreMissingFile)
+    const designDocsDbsList = [
+      {
+        name: dbName2,
+        designDocs: [ designDocName ]
+      }
+    ]
+    await couchInit(authHost, designDocsDbsList, designDocFolder)
+    await exists(designDocPath)
+  })
 })
+
+const ignoreMissingFile = err => {
+  if (err.code !== 'ENOENT') throw err
+}
