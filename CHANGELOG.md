@@ -1,6 +1,9 @@
 # CHANGELOG
 *versions follow [SemVer](http://semver.org)*
 
+## 5.0.0 - 2021-12-15
+* **BREAKING CHANGE**: missing design doc files now throws an error (`ENOENT` for JSON files, `MODULE_NOT_FOUND` for JS modules) rather than initializing it.
+
 ## 4.2.0 - 2021-12-11
 * [CommonJS module design doc](https://github.com/maxlath/couch-init2#js): add support for function array as view functions to concatenate
 
