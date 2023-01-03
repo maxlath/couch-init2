@@ -1,6 +1,6 @@
 {
   "name": "couch-init2",
-  "version": "5.0.1",
+  "version": "6.0.0",
   "type": "module",
   "description": "Opiniated CouchDB databases initializer",
   "main": "lib/main.js",
