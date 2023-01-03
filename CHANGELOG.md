@@ -1,6 +1,9 @@
 # CHANGELOG
 *versions follow [SemVer](http://semver.org)*
 
+## 6.0.0 - 2023-01-03
+* **BREAKING CHANGE**: convert from CommonJS to ES6
+
 ## 5.0.0 - 2021-12-15
 * **BREAKING CHANGE**: missing design doc files now throws an error (`ENOENT` for JSON files, `MODULE_NOT_FOUND` for JS modules) rather than initializing it.
 
