@@ -1,34 +1,35 @@
-const CONFIG = require('config')
-const couchInit = require('../index')
-require('should')
-const { inspect } = require('util')
-const { rm, stat: exists } = require('fs').promises
+import { rm } from 'fs/promises'
+import { inspect } from 'util'
+import config from 'config'
+import fetch from 'node-fetch'
+import should from 'should'
+import couchInit from '../lib/main.js'
+import { getDirname, getRelativeJsonSync } from '../lib/utils.js'
 
-const authHost = `http://${CONFIG.user}:${CONFIG.pass}@${CONFIG.host}`
-const nonAuthHost = `http://${CONFIG.host}`
+const authHost = `http://${config.user}:${config.pass}@${config.host}`
+const nonAuthHost = `http://${config.host}`
 const dbName = 'couch-init2-tests'
 const dbName2 = 'couch-init2-tests-bis'
 const dbUrlWithAuth = `${authHost}/${dbName}`
 const db2UrlWithAuth = `${authHost}/${dbName2}`
 const dbUrlWithoutAuth = `${nonAuthHost}/${dbName}`
 
-const fetch = require('node-fetch')
-
 const dbsList = [
   {
     name: dbName,
-    designDocs: [ 'designdoc1', 'designdoc2' ]
-  }
+    designDocs: [ 'designdoc1', 'designdoc2' ],
+  },
 ]
 
 const jsDesignDocsDbsList = [
   {
     name: dbName2,
-    designDocs: [ 'designdoc3.js' ]
-  }
+    designDocs: [ 'designdoc3.js' ],
+  },
 ]
 
-const designDocFolder = __dirname + '/fixtures'
+const dirname = getDirname(import.meta.url)
+const designDocFolder = dirname + '/fixtures'
 
 const db = {
   info: async () => await fetch(dbUrlWithAuth).then(res => res.json()),
@@ -36,7 +37,7 @@ const db = {
   put: async (id, body) => {
     return fetch(`${dbUrlWithAuth}/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     })
   },
   delete: async () => {
@@ -45,7 +46,7 @@ const db = {
     if (res.status >= 400 && res.status !== 404) {
       throw new Error(`${res.status}: ${res.statusText}`)
     }
-  }
+  },
 }
 
 describe('integration', () => {
@@ -76,7 +77,7 @@ describe('integration', () => {
     const securityDoc = await fetch(`${dbUrlWithAuth}/_security`).then(res => res.json())
     securityDoc.should.deepEqual({
       admins: { roles: [ '_admin' ] },
-      members: { roles: [ '_admin' ] }
+      members: { roles: [ '_admin' ] },
     })
   })
 
@@ -91,7 +92,7 @@ describe('integration', () => {
     const designDoc = await fetch(`${dbUrlWithAuth}/_design/designdoc2`).then(res => res.json())
     designDoc._rev.split('-')[0].should.equal('1')
     delete designDoc._rev
-    const designDoc2File = require('./fixtures/designdoc2.json')
+    const designDoc2File = getRelativeJsonSync(import.meta.url, './fixtures/designdoc2.json')
     designDoc.should.deepEqual(designDoc2File)
   })
 
@@ -107,7 +108,7 @@ describe('integration', () => {
     const dbOps = operations[dbName]
     dbOps.should.deepEqual({
       created: false,
-      designDocs: { designdoc2: { updated: true } }
+      designDocs: { designdoc2: { updated: true } },
     })
     const reupdatedDesignDoc = await db.get('_design/designdoc2')
     reupdatedDesignDoc._rev.split('-')[0].should.equal('3')
@@ -132,8 +133,8 @@ describe('integration', () => {
     const designDocsDbsList = [
       {
         name: dbName2,
-        designDocs: [ designDocName ]
-      }
+        designDocs: [ designDocName ],
+      },
     ]
     await couchInit(authHost, designDocsDbsList, designDocFolder)
     .then(shouldNotBeCalled)
@@ -150,13 +151,13 @@ describe('integration', () => {
     const designDocsDbsList = [
       {
         name: dbName2,
-        designDocs: [ designDocName ]
-      }
+        designDocs: [ designDocName ],
+      },
     ]
     await couchInit(authHost, designDocsDbsList, designDocFolder)
     .then(shouldNotBeCalled)
     .catch(err => {
-      err.code.should.equal('MODULE_NOT_FOUND')
+      err.code.should.equal('ERR_MODULE_NOT_FOUND')
       err.message.should.containEql(designDocPath)
     })
   })

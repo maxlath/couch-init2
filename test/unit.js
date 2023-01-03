@@ -1,5 +1,5 @@
-require('should')
-const couchInit = require('../index')
+import 'should'
+import couchInit from '../lib/main.js'
 
 describe('unit', () => {
   it('should be a function', done => {

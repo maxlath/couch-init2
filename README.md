@@ -11,14 +11,19 @@ Takes a list of databases to initialise and their design docs, and make sure tha
 
 in a terminal, at the root of your project
 ```sh
+# ESM
 npm install couch-init2
+# CommonJS
+npm install couch-init2@5
 ```
 
 ### How To
 
 ```javascript
-var dbUrl = 'http://username:password@localhost:5984'
-var dbsList = [
+import couchInit from 'couch-init2'
+
+const dbUrl = 'http://username:password@localhost:5984'
+const dbsList = [
    {
      name: 'dbname1',
      designDocs: ['designdoc1']
@@ -35,17 +40,13 @@ var dbsList = [
 // Path to the folder where design docs can be found on the model `${designDocName}.json`
 // If a design doc file from the list is missing, it will be created with a basic design doc structure
 // If a design doc file changed, the database design doc will be updated
-var designDocFolder = '/path/to/your/design/docs/folder'
+const designDocFolder = '/path/to/your/design/docs/folder'
 
-couchInit(dbUrl, dbsList, designDocFolder)
-// returns a promise
-.then(res => {
-  console.log('ok', res.ok)
-  console.log('operations', res.operations)
-  // dbs were successfully initialized!
-  // time to start your server or whatever crazy thing you're building :)
-})
-.catch(err => { // handle the error })
+const { ok, operations } = await couchInit(dbUrl, dbsList, designDocFolder)
+console.log('ok', res.ok)
+console.log('operations', res.operations)
+// dbs were successfully initialized!
+// time to start your server or whatever crazy thing you're building :)
 ```
 
 ### Design docs formats
@@ -66,7 +67,7 @@ The JSON format is identical to the document in database, minus the `_rev` id.
 #### js
 The JS format allows to use a JS module that exports just the `views` object, the `_id` being deduced from the filename (ex: if the file is named `foo.js`, the `_id` will be `_design/foo`)
 ```js
-module.exports = {
+export default {
   byFoo: {
     map: function (doc) {
       if (doc.foo) emit(doc.foo, 1)

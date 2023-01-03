@@ -1,25 +1,32 @@
 {
   "name": "couch-init2",
   "version": "5.0.1",
+  "type": "module",
   "description": "Opiniated CouchDB databases initializer",
-  "main": "index.js",
+  "main": "lib/main.js",
   "scripts": {
+    "lint": "eslint -c ./.eslintrc lib test",
+    "lint-fix": "eslint --fix -c ./.eslintrc lib test",
     "test": "mocha",
     "prepublishOnly": "npm test",
     "postpublish": "git push --tags"
   },
   "files": [
-    "index.js",
     "lib"
   ],
   "author": "maxlath",
   "license": "MIT",
   "dependencies": {
     "node-fetch": "^2.6.0",
-    "tiny-chalk": "^2.0.0"
+    "tiny-chalk": "^3.0.1"
   },
   "devDependencies": {
-    "config": "^1.26.2",
+    "config": "^3.3.8",
+    "eslint": "^8.31.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.6.0",
+    "eslint-plugin-promise": "^6.1.1",
     "mocha": "^9.1.3",
     "should": "^13.2.3"
   },

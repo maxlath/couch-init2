@@ -1,3 +1,4 @@
 node_modules
-config/local.js
+config/local.cjs
 test/fixtures/not_existing_design_doc.js*
+pnpm-lock.yaml
