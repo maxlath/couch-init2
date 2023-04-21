@@ -1,5 +1,5 @@
-import { rm } from 'fs/promises'
-import { inspect } from 'util'
+import { rm } from 'node:fs/promises'
+import { inspect } from 'node:util'
 import config from 'config'
 import fetch from 'node-fetch'
 import should from 'should'
