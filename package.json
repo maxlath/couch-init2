@@ -5,6 +5,7 @@
   "description": "Opiniated CouchDB databases initializer",
   "main": "lib/main.js",
   "scripts": {
+    "check-types": "tsc -p ./jsconfig.json",
     "lint": "eslint -c ./.eslintrc lib test",
     "lint-fix": "eslint --fix -c ./.eslintrc lib test",
     "test": "mocha",
